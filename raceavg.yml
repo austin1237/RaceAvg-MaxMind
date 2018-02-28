@@ -1,0 +1,8 @@
+version: '3'
+services:
+  raceavg:
+    build: ./raceavg
+    volumes:
+      - ./raceavg:/go/src/github.com/user/raceavg
+    environment:
+      APP_ENV: "local"
