@@ -9,67 +9,40 @@ import (
 	"github.com/jszwec/csvutil"
 )
 
-type Block struct {
-	StartIPNum int `csv:"startIpNum"`
-	EndIPNum   int `csv:"endIpNum"`
-	LocID      int `csv:"locId"`
-}
+var mmDB MaxMindDB
 
-type Location struct {
-	LocID      int     `csv:"locId" json:"locId"`
-	Country    string  `csv:"country" json:"country"`
-	Region     string  `csv:"region" json:"region"`
-	City       string  `csv:"city" json:"city"`
-	PostalCode string  `csv:"postalCode" json:"postalCode"`
-	Latitude   float64 `csv:"latitude" json:"latitude"`
-	Longitude  float64 `csv:"longitude" json:"longitude"`
-	MetroCode  string  `csv:"metroCode" json:"metroCode"`
-	AreaCode   string  `csv:"areaCode" json:"areaCode"`
-}
-
-type MaxMindMemory struct {
-	BlockMap       map[int]Block
-	SortedStartIps []int
-	LocationMap    map[int]Location
-}
-
-var mmMemory MaxMindMemory
-
+// If the csvs can't be loaded to build the DB hard crash
 func check(e error) {
 	if e != nil {
 		panic(e)
 	}
 }
 
-func LoadCSVs() {
+func MustLoadCSVs() {
 	var blocks []Block
-	var locations []Location
+	var locations []DBLocation
 
 	fmt.Println("setting up db")
 
 	bytes, err := ioutil.ReadFile("GeoLiteCity-Blocks.csv")
 	check(err)
-	if err := csvutil.Unmarshal(bytes, &blocks); err != nil {
-		fmt.Println("error:", err)
-	}
+	err = csvutil.Unmarshal(bytes, &blocks)
+	check(err)
 
 	bytes, err = ioutil.ReadFile("GeoLiteCity-Location.csv")
 	check(err)
-	if err := csvutil.Unmarshal(bytes, &locations); err != nil {
-		fmt.Println("error:", err)
-	}
-
-	fmt.Printf("blocks finished loading %+v items", len(blocks))
-	fmt.Printf("locations finished loading %+v items", len(locations))
+	err = csvutil.Unmarshal(bytes, &locations)
+	check(err)
 	sortedStartIP, blockMap := sortByStartingIP(blocks)
 	locationMap := sortByLocID(locations)
-	mmMemory.BlockMap = blockMap
-	mmMemory.LocationMap = locationMap
-	mmMemory.SortedStartIps = sortedStartIP
+	mmDB.BlockMap = blockMap
+	mmDB.LocationMap = locationMap
+	mmDB.SortedStartIps = sortedStartIP
+	fmt.Println("db loaded")
 }
 
-func sortByLocID(locations []Location) map[int]Location {
-	locationMap := make(map[int]Location)
+func sortByLocID(locations []DBLocation) map[int]DBLocation {
+	locationMap := make(map[int]DBLocation)
 	for _, element := range locations {
 		locationMap[element.LocID] = element
 	}
@@ -86,27 +59,23 @@ func sortByStartingIP(blocks []Block) ([]int, map[int]Block) {
 	}
 	sort.Ints(startIPs)
 
-	fmt.Printf("number of unquie elements %v \n", len(blockMap))
 	return startIPs, blockMap
 }
 
-// Implementing the between query here
-// https://dev.maxmind.com/geoip/legacy/csv/#SQL_Queries
-func QueryForLocation(ipInteger int) (Location, error) {
-	endPosition := sort.Search(len(mmMemory.SortedStartIps), func(i int) bool { return mmMemory.SortedStartIps[i] >= ipInteger })
+// Implementing the between query found here https://dev.maxmind.com/geoip/legacy/csv/#SQL_Queries
+// Find the location where ipInteger >= startIp && ipInteger <= endIpNum
+func QueryForLocation(ipInteger int) (DBLocation, error) {
+	endPosition := sort.Search(len(mmDB.SortedStartIps), func(i int) bool { return mmDB.SortedStartIps[i] >= ipInteger })
 
 	for i := 0; i < endPosition; i++ {
-		startIndex := mmMemory.SortedStartIps[i]
-		if mmMemory.BlockMap[startIndex].EndIPNum >= ipInteger {
-			locID := mmMemory.BlockMap[startIndex].LocID
-			location := mmMemory.LocationMap[locID]
-			fmt.Printf("foundTheLocationId here %v \n", i)
-			fmt.Printf("locID is %v \n", mmMemory.BlockMap[startIndex].LocID)
-			fmt.Printf("location is %v \n", location)
+		startIndex := mmDB.SortedStartIps[i]
+		if mmDB.BlockMap[startIndex].EndIPNum >= ipInteger {
+			locID := mmDB.BlockMap[startIndex].LocID
+			location := mmDB.LocationMap[locID]
 			return location, nil
 		}
 
 	}
 	err := errors.New("No location found")
-	return Location{}, err
+	return DBLocation{}, err
 }

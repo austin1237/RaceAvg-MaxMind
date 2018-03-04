@@ -1,30 +1,14 @@
-package location
+package adapter
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/user/mmapi/maxmind"
 )
 
-func GetLocationByIP(ipAddress string) (maxmind.Location, error) {
-	ipInteger, err := convertIPToInt(ipAddress)
-	if err != nil {
-		return maxmind.Location{}, err
-	}
-	fmt.Printf("%v is the converted ip", ipInteger)
-	location, err := maxmind.QueryForLocation(ipInteger)
-	if err != nil {
-		return maxmind.Location{}, err
-	}
-	return location, nil
-}
-
-func convertIPToInt(address string) (int, error) {
-	fmt.Println("Address is " + address)
-	address = strings.Replace(address, "\"", "", -1)
+func ClientIPToDb(address string) (int, error) {
 	splitAddress := strings.Split(address, ".")
 	splitNumbers := []int{}
 	for _, element := range splitAddress {
@@ -38,4 +22,17 @@ func convertIPToInt(address string) (int, error) {
 	// equation found here https://dev.maxmind.com/geoip/legacy/csv/#Integer_IPv4_Representation
 	integerIP := (16777216 * splitNumbers[0]) + (65536 * splitNumbers[1]) + (256 * splitNumbers[2]) + splitNumbers[3]
 	return integerIP, nil
+}
+
+func DbLocationToClient(dbLocation maxmind.DBLocation) maxmind.ClientLocation {
+	clientLoc := maxmind.ClientLocation{
+		LocationID: dbLocation.LocID,
+		Country:    dbLocation.Country,
+		Region:     dbLocation.Region,
+		City:       dbLocation.City,
+		Latitude:   dbLocation.Latitude,
+		Longitude:  dbLocation.Longitude,
+		MetroCode:  dbLocation.MetroCode,
+	}
+	return clientLoc
 }

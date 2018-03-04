@@ -8,13 +8,18 @@ import (
 )
 
 func init() {
-	maxmind.LoadCSVs()
+	maxmind.MustLoadCSVs()
+}
+
+func CreateApi() *echo.Echo {
+	api := echo.New()
+	api.Use(middleware.Logger())
+	api.Use(middleware.Recover())
+	route.SetUpRoutes(api)
+	return api
 }
 
 func main() {
-	e := echo.New()
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	route.SetUpRoutes(e)
-	e.Logger.Fatal(e.Start(":8080"))
+	api := CreateApi()
+	api.Logger.Fatal(api.Start(":8080"))
 }

@@ -22,9 +22,21 @@
 
 
 [[constraint]]
+  name = "github.com/appleboy/gofight"
+  version = "2.0.0"
+
+[[constraint]]
+  name = "github.com/asaskevich/govalidator"
+  version = "8.0.0"
+
+[[constraint]]
   name = "github.com/jszwec/csvutil"
   version = "1.0.0"
 
 [[constraint]]
   name = "github.com/labstack/echo"
-  version = "v3.2.6"
+  version = "3.2.6"
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "1.2.1"

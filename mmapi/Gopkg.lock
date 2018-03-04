@@ -2,6 +2,24 @@
 
 
 [[projects]]
+  name = "github.com/appleboy/gofight"
+  packages = ["."]
+  revision = "beadc315fb676177c07a89c34159b9ca4e1aafd9"
+  version = "v2.0.0"
+
+[[projects]]
+  name = "github.com/asaskevich/govalidator"
+  packages = ["."]
+  revision = "521b25f4b05fd26bec69d9dedeb8f9c9a83939a8"
+  version = "v8"
+
+[[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
+  version = "v1.1.0"
+
+[[projects]]
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
   revision = "dbeaa9332f19a944acb5736b4456cfcc02140e29"
@@ -38,6 +56,18 @@
   version = "v0.0.3"
 
 [[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
+  version = "v1.2.1"
+
+[[projects]]
   branch = "master"
   name = "github.com/valyala/bytebufferpool"
   packages = ["."]
@@ -59,11 +89,11 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "f6cff0780e542efa0c8e864dc8fa522808f6a598"
+  revision = "dd2ff4accc098aceecb86b36eaa7829b2a17b1c9"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b37568874c2daa58ffcad6c8e6beaa9a91819b8f3cdbdfaa30a08dce0b358d65"
+  inputs-digest = "e5927e89006be19494f700dbf57279405417c23b048d553601bd3825d79bd8ee"
   solver-name = "gps-cdcl"
   solver-version = 1

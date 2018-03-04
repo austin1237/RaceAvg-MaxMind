@@ -1,6 +1,7 @@
 version: '3'
 services:
   mmapi:
+    command: 'go test -v ./...'
     build: ./mmapi
     volumes:
       - ./mmapi:/go/src/github.com/user/mmapi
