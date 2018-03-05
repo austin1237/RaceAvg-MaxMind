@@ -16,6 +16,6 @@ jobs:
       - run:
           name: Test mmapi
           command: docker-compose -f circleci.yml run mmapi go test -v ./...
-       - run:
+      - run:
           name: Test raceavg
           command: docker-compose -f circleci.yml run raceavg go test -v ./...
