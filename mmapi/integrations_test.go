@@ -11,7 +11,7 @@ import (
 func TestHealthEndpoint(t *testing.T) {
 	r := gofight.New()
 
-	r.GET("/health").
+	r.GET("/v1/health").
 		// turn on the debug mode.
 		SetDebug(true).
 		Run(CreateApi(), func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
@@ -22,7 +22,7 @@ func TestHealthEndpoint(t *testing.T) {
 func TestLocationEndpoint(t *testing.T) {
 	r := gofight.New()
 
-	r.GET("/location?ip=\"174.29.5.118\"").
+	r.GET("/v1/location?ip=\"174.29.5.118\"").
 		// turn on the debug mode.
 		SetDebug(true).
 		Run(CreateApi(), func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {

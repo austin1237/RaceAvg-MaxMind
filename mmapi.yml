@@ -8,3 +8,17 @@ services:
       APP_ENV: "local"
     ports:
       - "3000:8080"
+  doc-service:
+    build: ./doc-service
+    volumes:
+      - ./doc-service/www:/usr/share/nginx/www/ 
+    ports:  
+      - "3001:8080"
+  doc-generator:
+    build: 
+      context: .
+      dockerfile: ./doc-generator/Dockerfile
+    command: 'apidoc -o docs/'
+    volumes:
+      - ./mmapi:/app
+      - ./doc-service/www:/app/docs
