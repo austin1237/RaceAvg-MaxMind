@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mmapi:
+    command: 'go test -v ./...'
+    build: ./mmapi
+    volumes:
+      - ./mmapi:/go/src/github.com/user/mmapi
+    environment:
+      APP_ENV: "local"
+    ports:
+      - "3000:8080"
