@@ -41,7 +41,7 @@ You can communicate with the api over localhost:3000. There is port mapping betw
 This container uses [fresh](https://github.com/pilu/fresh) as a hot-reloader. That way whenever a source file changes in the mmapi dir the container will automatically rebuild/run the program.<br>
 
 ### Documentation
-runs on http://localhost:3002 </br>
+runs on http://localhost:3001 </br>
 uses http://apidocjs.com/ <br>
 
 ### Where do I put the CSV files.
@@ -63,7 +63,7 @@ The following structures compose the in memory "db" for querying.
 2. Hashmap[startIp]block from the blocks csv.
 3. Hashmap[locId]location from the locations csv.
 
-To find the geolocation of an ip I replacted this [query](https://dev.maxmind.com/geoip/legacy/csv/#SQL_Queries).
+To find the geolocation of an ip I replicated this [query](https://dev.maxmind.com/geoip/legacy/csv/#SQL_Queries).
 1. Find the range of viable start ips compared to the client's ip
 2. Look through the range and found the bloc from the hashmap[startIp]block that has a endIp that is <= the cl
 3. Return the location with the same bloc.locId form step 2 from the Hashmap[locId]location.
