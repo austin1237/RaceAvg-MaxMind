@@ -40,7 +40,7 @@ func SetUpRoutes(e *echo.Echo) {
 	/**
 	 * @api {get} /v1/health GET Health
 	 * @apiVersion 1.0.0
-	 * @apiDescription request information on companies
+	 * @apiDescription Is the service healthy
 	 * @apiName GetHealth
 	 * @apiGroup Health
 	 * @apiSuccessExample {json} Success-Response:

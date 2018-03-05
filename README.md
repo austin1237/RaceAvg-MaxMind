@@ -65,10 +65,10 @@ The following structures compose the in memory "db" for querying.
 
 To find the geolocation of an ip I replicated this [query](https://dev.maxmind.com/geoip/legacy/csv/#SQL_Queries).
 1. Find the range of viable start ips compared to the client's ip
-2. Look through the range and found the bloc from the hashmap[startIp]block that has a endIp that is <= the cl
+2. Look through the range and found the bloc from the hashmap[startIp]block that has a endIp that is <= the client ip
 3. Return the location with the same bloc.locId form step 2 from the Hashmap[locId]location.
 
 
-####Why use Go over Node/Python/Java or any other language for the api.
+###Why use Go over Node/Python/Java or any other language for the api.
 Not considering performance which Go is great at. From an ops perspective since GO creates a static binary you can create very lean/small container's in the CI pipeline that don't even need GO's runtime to run. Also bonus points...
 

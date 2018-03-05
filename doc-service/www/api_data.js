@@ -4,7 +4,7 @@ define({ "api": [
     "url": "/v1/health",
     "title": "GET Health",
     "version": "1.0.0",
-    "description": "<p>request information on companies</p>",
+    "description": "<p>Is the service healthy</p>",
     "name": "GetHealth",
     "group": "Health",
     "success": {
