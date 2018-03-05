@@ -40,6 +40,10 @@ You can communicate with the api over localhost:3000. There is port mapping betw
 
 This container uses [fresh](https://github.com/pilu/fresh) as a hot-reloader. That way whenever a source file changes in the mmapi dir the container will automatically rebuild/run the program.<br>
 
+### Documentation
+runs on http://localhost:3002 </br>
+uses http://apidocjs.com/ <br>
+
 ### Where do I put the CSV files.
 You don't. The build process will download the needed csv files for you, and place them in the container's home/maxmind dir. This removes the need to store large files in git.
 
