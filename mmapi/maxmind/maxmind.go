@@ -24,12 +24,12 @@ func MustLoadCSVs() {
 
 	fmt.Println("setting up db")
 
-	bytes, err := ioutil.ReadFile("GeoLiteCity-Blocks.csv")
+	bytes, err := ioutil.ReadFile("/maxmind/GeoLiteCity-Blocks.csv")
 	check(err)
 	err = csvutil.Unmarshal(bytes, &blocks)
 	check(err)
 
-	bytes, err = ioutil.ReadFile("GeoLiteCity-Location.csv")
+	bytes, err = ioutil.ReadFile("/maxmind/GeoLiteCity-Location.csv")
 	check(err)
 	err = csvutil.Unmarshal(bytes, &locations)
 	check(err)
